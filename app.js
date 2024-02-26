@@ -5,7 +5,6 @@ const TeacherRouter=require("./Route/TeacherRoute");
 const ChildRouter=require("./Route/ChildRouter");
 const ClassRouter = require("./Route/ClassRouter");
 const login=require("./Route/authenticationRouter");
-const authenticationMW=require("./middleware/authenticationMiddleware");
 
 const server=express();
 
@@ -36,10 +35,9 @@ server.use(express.urlencoded({extended: true}));
 
 
 server.use(login);
-server.use(authenticationMW);
+server.use(TeacherRouter);
 server.use(ChildRouter);
 server.use(ClassRouter);
-server.use(TeacherRouter);
 
 
 

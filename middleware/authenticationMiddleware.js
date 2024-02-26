@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
-
-module.exports = (req, res, next) => {
+exports.auth = (req, res, next) => {
     try {
+      console.log(req.headers);
       const token = req.headers.authorization.split(" ")[1];
       const decodedToken = jwt.verify(token,"maryam");
+      console.log(token);
       console.log(decodedToken);
-      req.user = decodedToken;
+      req.user = decodedToken;  
       next();
     } catch (error) {
       next(error);
@@ -14,7 +15,7 @@ module.exports = (req, res, next) => {
 
 
 
-module.exports.isAdmin = (req, res, next) => {
+exports.isAdmin = (req, res, next) => {
     if (req.user.role == "admin") {
       next();
     } else {
@@ -25,13 +26,13 @@ module.exports.isAdmin = (req, res, next) => {
   };
 
   
-module.exports.isAdminOrTeacher = (req, res, next) => {
+exports.isAdminOrTeacher = (req, res, next) => {
+  console.log(req.user.role);
+
     if (req.user.role === "admin") {
       next();
     } else if (
-        req.user.role === "teacher" &&
-      (req.body._id === req.user._id || req.params.id === req.user._id)
-    ){
+        req.user.role === "teacher"){
       next();
     } else {
       let error = new Error("you are not authorized");

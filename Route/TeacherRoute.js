@@ -9,12 +9,11 @@ const router=express.Router();
 
 router.route("/teachers")
      
-     .get(authMiddleWare.isAdminOrTeacher,
-       teacherController.getAllTeachers)
+     .get(authMiddleWare.auth,
+      authMiddleWare.isAdminOrTeacher,
+      teacherController.getAllTeachers)
 
       .post(teacherController.upload.single("image"),
-            teacherValidation.postValidationArr,
-            validation,
             teacherController.addNewTeacher)
 
       
